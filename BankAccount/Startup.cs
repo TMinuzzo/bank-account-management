@@ -11,6 +11,8 @@ using BankAccount.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -18,14 +20,32 @@ namespace BankAccount
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
             services.AddDbContext<MySqlContext>(options =>
             {
+                var server = Configuration["database:mysql:server"];
+                var port = Configuration["database:mysql:port"];
+                var database = Configuration["database:mysql:database"];
+                var username = Configuration["database:mysql:username"];
+                var password = Configuration["database:mysql:password"];
+
+                options.UseMySql($"Server={server};Port={port};Database={database};Uid={username};Pwd={password}", new MySqlServerVersion(new Version(5, 7, 34)), opt =>
+                {
+                    opt.CommandTimeout(180);
+                    opt.EnableRetryOnFailure(5);
+                    opt.MigrationsAssembly("BankAccount.Infrastructure");
+                });
             });
 
             services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();

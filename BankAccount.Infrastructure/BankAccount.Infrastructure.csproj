@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mapping\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BankAccount.Domain\BankAccount.Domain.csproj" />
   </ItemGroup>
 
