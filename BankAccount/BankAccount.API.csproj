@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BankAccount.Domain\BankAccount.Domain.csproj" />
+    <ProjectReference Include="..\BankAccount.Infrastructure\BankAccount.Infrastructure.csproj" />
+    <ProjectReference Include="..\BankAccount.Service\BankAccount.Service.csproj" />
+  </ItemGroup>
 
 </Project>

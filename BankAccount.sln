@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.API", "BankAccount\BankAccount.API.csproj", "{CC16689D-279E-4853-9416-D71715DF177E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.API", "BankAccount\BankAccount.API.csproj", "{CC16689D-279E-4853-9416-D71715DF177E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Domain", "BankAccount.Domain\BankAccount.Domain.csproj", "{8CE125CF-609D-4B66-B4A8-2FE032B045BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.Domain", "BankAccount.Domain\BankAccount.Domain.csproj", "{8CE125CF-609D-4B66-B4A8-2FE032B045BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Infrastructure", "BankAccount.Infrastructure\BankAccount.Infrastructure.csproj", "{51DF6F0A-57B1-4F19-BADB-3660560C6BDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.Infrastructure", "BankAccount.Infrastructure\BankAccount.Infrastructure.csproj", "{51DF6F0A-57B1-4F19-BADB-3660560C6BDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{10832A59-AD23-4666-AD43-1E5AE07E47DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{10832A59-AD23-4666-AD43-1E5AE07E47DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Service", "BankAccount.Service\BankAccount.Service.csproj", "{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{10832A59-AD23-4666-AD43-1E5AE07E47DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10832A59-AD23-4666-AD43-1E5AE07E47DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10832A59-AD23-4666-AD43-1E5AE07E47DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
