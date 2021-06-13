@@ -3,6 +3,7 @@ using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BankAccount.Service.Services
@@ -28,6 +29,16 @@ namespace BankAccount.Service.Services
             TOutputModel outputModel = _mapper.Map<TOutputModel>(entity);
 
             return outputModel;
+        }
+
+        public IEnumerable<TOutputModel> Get<TOutputModel>() 
+            where TOutputModel : class
+        {
+            var entities = _baseRepository.Select();
+
+            var outputModels = entities.Select(e => _mapper.Map<TOutputModel>(e));
+
+            return outputModels;
         }
     }
 }

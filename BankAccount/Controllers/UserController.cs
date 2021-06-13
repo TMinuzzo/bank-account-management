@@ -30,6 +30,20 @@ namespace BankAccount.API.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                var result = _baseUserService.Get<User>();
+                return Ok(result);
+            }
+            catch (HttpRequestException e)
+            {
+                return BadRequest(e);
+            }
+        }
+
 
 
 

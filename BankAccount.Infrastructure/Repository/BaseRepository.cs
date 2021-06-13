@@ -3,6 +3,7 @@ using BankAccount.Domain.Interfaces;
 using BankAccount.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BankAccount.Infrastructure.Repository
@@ -19,27 +20,30 @@ namespace BankAccount.Infrastructure.Repository
 
         public void Insert(TEntity obj)
         {
-            throw new NotImplementedException();
+            _mySqlContext.Set<TEntity>().Add(obj);
+            _mySqlContext.SaveChanges();
         }
 
         public void Update(TEntity obj)
         {
-            throw new NotImplementedException();
+            _mySqlContext.Entry(obj).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _mySqlContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _mySqlContext.Set<TEntity>().Remove(Select(id));
+            _mySqlContext.SaveChanges();
         }
 
         public IList<TEntity> Select()
         {
-            throw new NotImplementedException();
+            return _mySqlContext.Set<TEntity>().ToList();
         }
 
         public TEntity Select(int id)
         {
-            throw new NotImplementedException();
+            return _mySqlContext.Set<TEntity>().Find(id);
         }
 
 

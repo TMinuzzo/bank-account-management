@@ -11,5 +11,7 @@ namespace BankAccount.Domain.Interfaces
             where TInputModel : class
             where TOutputModel : class;
 
+        IEnumerable<TOutputModel> Get<TOutputModel>() where TOutputModel : class;
+
     }
 }
