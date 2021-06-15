@@ -18,6 +18,10 @@ namespace BankAccount.Infrastructure.Context
 
         public DbSet<Deposit> Deposits { get; set; }
 
+        public DbSet<Withdraw> Withdrawals { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
+
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

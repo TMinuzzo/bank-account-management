@@ -20,12 +20,40 @@ namespace BankAccount.Service.Services
 
         public Deposit MakeDeposit(int destination, decimal amount)
         {
-            // TODO: create validation when there is no user found on db;
-            var user = _userRepository.Select(destination);
+            User user = Validate(_userRepository.Select(destination));
+
             var deposit = new Deposit(amount, user, DateTime.Now);
 
             return deposit;
 
+        }
+
+        public Withdraw MakeWithdraw(int source, decimal amount)
+        {
+            User user = Validate(_userRepository.Select(source));
+
+            var withdraw = new Withdraw(amount, user, DateTime.Now);
+
+            return withdraw;
+
+        }
+
+        public Payment MakePayment(int source, string destination, decimal amount, string description)
+        {
+            User user = Validate(_userRepository.Select(source));
+
+            var payment = new Payment(amount, user, destination, description, DateTime.Now);
+
+            return payment;
+
+        }
+
+        private TInputModel Validate<TInputModel>(TInputModel obj) where TInputModel : class
+        {
+            if (obj == null)
+                throw new Exception("Registro não existente.");
+
+            return obj;
         }
     }
 }

@@ -52,10 +52,14 @@ namespace BankAccount
             // Repositories
             services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
             services.AddScoped<IBaseRepository<Deposit>, BaseRepository<Deposit>>();
+            services.AddScoped<IBaseRepository<Withdraw>, BaseRepository<Withdraw>>();
+            services.AddScoped<IBaseRepository<Payment>, BaseRepository<Payment>>();
 
             // Services
             services.AddScoped<IBaseService<User>, BaseService<User>>();
             services.AddScoped<IBaseService<Deposit>, BaseService<Deposit>>();
+            services.AddScoped<IBaseService<Withdraw>, BaseService<Withdraw>>();
+            services.AddScoped<IBaseService<Payment>, BaseService<Payment>>();
 
             services.AddScoped<TransactionService, TransactionService>();
             

@@ -10,5 +10,13 @@ namespace BankAccount.Domain.Entities
 
         public User Source { get; set; }
 
+        public Withdraw() { }
+
+        public Withdraw(decimal amount, User source, DateTime timestamp)
+        {
+            Amount = amount;
+            Source = source;
+            Timestamp = timestamp;
+        }
     }
 }

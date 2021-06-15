@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankAccount.Infrastructure.Migrations
 {
     [DbContext(typeof(MySqlContext))]
-    [Migration("20210614231214_Initial")]
+    [Migration("20210615001449_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,15 +61,10 @@ namespace BankAccount.Infrastructure.Migrations
             modelBuilder.Entity("BankAccount.Domain.Entities.Deposit", b =>
                 {
                     b.HasOne("BankAccount.Domain.Entities.User", "Destination")
-                        .WithMany("Deposits")
+                        .WithMany()
                         .HasForeignKey("DestinationId");
 
                     b.Navigation("Destination");
-                });
-
-            modelBuilder.Entity("BankAccount.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Deposits");
                 });
 #pragma warning restore 612, 618
         }

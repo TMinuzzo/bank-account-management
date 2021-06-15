@@ -7,7 +7,8 @@ namespace BankAccount.API.Models
 {
     public class MakePayment
     {
-        public string Source { get; set; }
+        public int Source { get; set; }
+        
         public string Destination { get; set; }
 
         public decimal Amount { get; set; }

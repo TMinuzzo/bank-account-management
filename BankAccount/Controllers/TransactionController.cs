@@ -17,17 +17,20 @@ namespace BankAccount.API.Controllers
     public class TransactionController : ControllerBase
     {
         private IBaseService<Deposit> _baseDepositService;
+        private IBaseService<Withdraw> _baseWithdrawService;
+        private IBaseService<Payment> _basePaymentService;
 
-        private IBaseService<User> _baseUserService;
 
         private TransactionService _transactionService;
 
         public TransactionController(IBaseService<Deposit> baseDepositService,
-                                     IBaseService<User> baseUserService,
+                                     IBaseService<Withdraw> baseWithdrawService,
+                                     IBaseService<Payment> basePaymentService,
                                      TransactionService transactionService)
         {
             _baseDepositService = baseDepositService;
-            _baseUserService = baseUserService;
+            _baseWithdrawService = baseWithdrawService;
+            _basePaymentService = basePaymentService;
             _transactionService = transactionService;
         }
 
@@ -53,14 +56,36 @@ namespace BankAccount.API.Controllers
         [Route("withdraw")]
         public IActionResult MakeWithdraw([FromBody] MakeWithdrawModel makeWithdrawModel)
         {
-            return BadRequest();
+            try
+            {
+                // TODO: better way to pass parameters to MakeDeposit
+                var withdraw = _transactionService.MakeWithdraw(makeWithdrawModel.Source, makeWithdrawModel.Amount);
+                var result = _baseWithdrawService.Add<Withdraw, Withdraw>(withdraw);
+
+                return Ok(result);
+            }
+            catch (HttpRequestException e)
+            {
+                return BadRequest(e);
+            }
         }
 
         [HttpPost]
         [Route("payment")]
         public IActionResult MakePayment([FromBody] MakePayment makePayment)
         {
-            return BadRequest();
+            try
+            {
+                // TODO: better way to pass parameters to MakeDeposit
+                var payment = _transactionService.MakePayment(makePayment.Source, makePayment.Destination, makePayment.Amount, makePayment.Description);
+                var result = _basePaymentService.Add<Payment, Payment>(payment);
+
+                return Ok(result);
+            }
+            catch (HttpRequestException e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }

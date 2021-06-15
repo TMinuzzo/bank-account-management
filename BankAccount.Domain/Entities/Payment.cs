@@ -10,9 +10,20 @@ namespace BankAccount.Domain.Entities
 
         public User Source { get; set; }
 
-        public User Destination { get; set; }
+        public string Destination { get; set; }
 
         public string Description { get; set; }
+
+        public Payment() { }
+
+        public Payment(decimal amount, User source, string destination, string description, DateTime timestamp)
+        {
+            Amount = amount;
+            Source = source;
+            Destination = destination;
+            Description = description;
+            Timestamp = timestamp;
+        }
 
     }
 }
