@@ -13,5 +13,8 @@ namespace BankAccount.Domain.Interfaces
 
         IEnumerable<TOutputModel> Get<TOutputModel>() where TOutputModel : class;
 
+        TOutputModel Update<TInputModel, TOutputModel>(TInputModel inputModel)
+            where TInputModel : class
+            where TOutputModel : class;
     }
 }

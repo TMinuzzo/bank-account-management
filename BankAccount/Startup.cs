@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BankAccount.API.Models;
 using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
 using BankAccount.Infrastructure.Context;
@@ -48,10 +49,20 @@ namespace BankAccount
                 });
             });
 
+            // Repositories
             services.AddScoped<IBaseRepository<User>, BaseRepository<User>>();
-            services.AddScoped<IBaseService<User>, BaseService<User>>();
+            services.AddScoped<IBaseRepository<Deposit>, BaseRepository<Deposit>>();
 
-            services.AddSingleton(new MapperConfiguration(config =>{}).CreateMapper());
+            // Services
+            services.AddScoped<IBaseService<User>, BaseService<User>>();
+            services.AddScoped<IBaseService<Deposit>, BaseService<Deposit>>();
+
+            services.AddScoped<TransactionService<TransactionBase>, TransactionService<TransactionBase>>();
+            
+            services.AddSingleton(new MapperConfiguration(config =>
+            {
+                config.CreateMap<MakeDepositModel, Deposit>();
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

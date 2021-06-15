@@ -10,5 +10,11 @@ namespace BankAccount.Domain.Entities
 
         public User Destination { get; set; }
 
+        public Deposit(decimal amount, User destination, DateTime timestamp)
+        {
+            Amount = amount;
+            Destination = destination;
+            Timestamp = timestamp;
+        }
     }
 }

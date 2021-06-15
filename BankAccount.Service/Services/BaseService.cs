@@ -40,5 +40,18 @@ namespace BankAccount.Service.Services
 
             return outputModels;
         }
+
+        public TOutputModel Update<TInputModel, TOutputModel>(TInputModel inputModel)
+            where TInputModel : class
+            where TOutputModel : class
+        {
+            TEntity entity = _mapper.Map<TEntity>(inputModel);
+
+            _baseRepository.Update(entity);
+
+            TOutputModel outputModel = _mapper.Map<TOutputModel>(entity);
+
+            return outputModel;
+        }
     }
 }

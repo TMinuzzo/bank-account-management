@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BankAccount.API.Models;
 using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
+using BankAccount.Service.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,20 +16,31 @@ namespace BankAccount.API.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private IBaseService<TransactionBase> _baseTransactionService;
+        private IBaseService<Deposit> _baseDepositService;
 
-        public TransactionController(IBaseService<TransactionBase> baseTransactionService)
+        private IBaseService<User> _baseUserService;
+
+        private TransactionService _transactionService;
+
+        public TransactionController(IBaseService<Deposit> baseDepositService,
+                                     IBaseService<User> baseUserService,
+                                     TransactionService transactionService)
         {
-            _baseTransactionService = baseTransactionService;
+            _baseDepositService = baseDepositService;
+            _baseUserService = baseUserService;
+            _transactionService = transactionService;
         }
 
         [HttpPost]
         [Route("deposit")]
-        public IActionResult MakeDeposit([FromBody] MakeDepositModel makeDepositModel) // TODO: use a DTO instead of the User model!
+        public IActionResult MakeDeposit([FromBody] MakeDepositModel makeDepositModel)
         {
             try
             {
-                var result = _baseTransactionService.Add<MakeDepositModel, Deposit>(makeDepositModel);
+                // TODO: better way to pass parameters to MakeDeposit
+                var deposit = _transactionService.MakeDeposit(makeDepositModel.Destination, makeDepositModel.Amount);
+                var result = _baseDepositService.Add<Deposit, Deposit>(deposit);
+
                 return Ok(result);
             }
             catch (HttpRequestException e)
@@ -39,32 +51,16 @@ namespace BankAccount.API.Controllers
 
         [HttpPost]
         [Route("withdraw")]
-        public IActionResult MakeWithdraw([FromBody] MakeWithdrawModel makeWithdrawModel) // TODO: use a DTO instead of the User model!
+        public IActionResult MakeWithdraw([FromBody] MakeWithdrawModel makeWithdrawModel)
         {
-            try
-            {
-                var result = _baseTransactionService.Add<MakeWithdrawModel, Withdraw>(makeWithdrawModel);
-                return Ok(result);
-            }
-            catch (HttpRequestException e)
-            {
-                return BadRequest(e);
-            }
+            return BadRequest();
         }
 
         [HttpPost]
         [Route("payment")]
-        public IActionResult MakePayment([FromBody] MakePayment makePayment) // TODO: use a DTO instead of the User model!
+        public IActionResult MakePayment([FromBody] MakePayment makePayment)
         {
-            try
-            {
-                var result = _baseTransactionService.Add<MakePayment, Payment>(makePayment);
-                return Ok(result);
-            }
-            catch (HttpRequestException e)
-            {
-                return BadRequest(e);
-            }
+            return BadRequest();
         }
     }
 }

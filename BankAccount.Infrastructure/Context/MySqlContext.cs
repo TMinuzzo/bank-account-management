@@ -16,11 +16,16 @@ namespace BankAccount.Infrastructure.Context
         }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Deposit> Deposits { get; set; }
+
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>(new UserMap().Configure);
+            //modelBuilder.Entity<User>(new UserMap().Configure);
+            //modelBuilder.Entity<Deposit>(new DepositMap().Configure);
         }
+        */
     }
 }

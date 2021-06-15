@@ -7,7 +7,7 @@ namespace BankAccount.API.Models
 {
     public class MakeDepositModel
     {
-        public string Source { get; set; }
+        public int Destination { get; set; }
 
         public decimal Amount { get; set; }
     }
