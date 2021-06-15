@@ -57,7 +57,7 @@ namespace BankAccount
             services.AddScoped<IBaseService<User>, BaseService<User>>();
             services.AddScoped<IBaseService<Deposit>, BaseService<Deposit>>();
 
-            services.AddScoped<TransactionService<TransactionBase>, TransactionService<TransactionBase>>();
+            services.AddScoped<TransactionService, TransactionService>();
             
             services.AddSingleton(new MapperConfiguration(config =>
             {
