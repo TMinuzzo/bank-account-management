@@ -46,6 +46,5 @@ namespace BankAccount.Infrastructure.Repository
             return _mySqlContext.Set<TEntity>().Find(id);
         }
 
-
     }
 }

@@ -87,5 +87,20 @@ namespace BankAccount.API.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpGet]
+        [Route("history/{username}")]
+        public IActionResult GetHistory(string username)
+        {
+            try
+            {
+                var result = _transactionService.GetHistory(username);
+                return Ok(result);
+            }
+            catch (HttpRequestException e)
+            {
+                return BadRequest(e);
+            }
+        }
     }
 }
