@@ -1,16 +1,37 @@
 import React, { useState, useEffect } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+
+import LoginScreen from "./components/LoginScreen.jsx";
+
+import { CssBaseline, AppBar, Toolbar, Typography } from "@material-ui/core";
+import axios from "axios";
 
 import { useStyles } from "./styles.js";
+import AccountScreen from "./components/AccountScreen.jsx";
 
-export default function Order(props) {
+export default function Account(props) {
   const classes = useStyles(props);
 
-  useEffect(() => {}, []);
+  const initialValue = [{ name: " " }];
+  const [users, setUsers] = useState(initialValue);
+  const [user, setUser] = useState("");
+  const [loginStatus, setLoginStatus] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("https://localhost:44323/api/user/")
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => console.log("error", err));
+  }, []);
+
+  const handleChangeUser = (product) => {
+    setUser(product);
+  };
+
+  const handleClickButton = () => {
+    setLoginStatus(true);
+  };
 
   return (
     <React.Fragment>
@@ -22,9 +43,15 @@ export default function Order(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <main className={classes.layout}>
-        <Paper className={classes.paper}></Paper>
-      </main>
+      {loginStatus == false ? (
+        <LoginScreen
+          handleClickButton={handleClickButton}
+          handleChangeUser={handleChangeUser}
+          users={users}
+        />
+      ) : (
+        <AccountScreen user={user} />
+      )}
     </React.Fragment>
   );
 }

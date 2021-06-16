@@ -55,6 +55,9 @@ namespace BankAccount
             services.AddScoped<IBaseRepository<Withdraw>, BaseRepository<Withdraw>>();
             services.AddScoped<IBaseRepository<Payment>, BaseRepository<Payment>>();
 
+            services.AddScoped<UserRepository, UserRepository>();
+            services.AddScoped<TransactionRepository, TransactionRepository>();
+
             // Services
             services.AddScoped<IBaseService<User>, BaseService<User>>();
             services.AddScoped<IBaseService<Deposit>, BaseService<Deposit>>();
