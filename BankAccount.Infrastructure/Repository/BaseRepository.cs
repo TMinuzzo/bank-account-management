@@ -10,9 +10,7 @@ namespace BankAccount.Infrastructure.Repository
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-
         protected readonly MySqlContext _mySqlContext;
-        
         public BaseRepository(MySqlContext mySqlContext)
         {
             _mySqlContext = mySqlContext;

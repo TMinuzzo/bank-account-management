@@ -17,7 +17,7 @@ namespace BankAccount.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] User user) // TODO: use a DTO instead of the User model!
+        public IActionResult Create([FromBody] User user)
         {
             try
             {

@@ -1,28 +1,23 @@
-﻿using BankAccount.Domain.Entities;
+﻿using BankAccount.Domain.DTOs;
+using BankAccount.Domain.Entities;
 using BankAccount.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BankAccount.Infrastructure.Repository
+namespace BankAccount.Infrastructure.Repository 
 {
-    public class TransactionDto
-    {
-        public TransactionType Type { get; set; }
-        public decimal Amount { get; set; }
-        public DateTime Timestamp { get; set; }
 
-    }
-    public class TransactionRepository
+    public class TransactionRepository : BaseRepository<TransactionBase>
     {
-        protected readonly MySqlContext _mySqlContext;
+        protected new readonly MySqlContext _mySqlContext;
 
-        public TransactionRepository(MySqlContext mySqlContext)
+        public TransactionRepository(MySqlContext mySqlContext) : base(mySqlContext)
         {
             _mySqlContext = mySqlContext;
         }
 
-        public List<TransactionDto> Select(User user)
+        public List<TransactionDto> GetTransactions(User user)
         {
             var transactionDepositDto = _mySqlContext.Deposits.Where(s => s.Destination == user)
                                                                     .Select(s => new TransactionDto()

@@ -7,16 +7,16 @@ using System.Text;
 
 namespace BankAccount.Infrastructure.Repository
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository<User>
     {
-        protected readonly MySqlContext _mySqlContext;
+        protected new readonly MySqlContext _mySqlContext;
 
-        public UserRepository(MySqlContext mySqlContext)
+        public UserRepository(MySqlContext mySqlContext) : base(mySqlContext)
         {
             _mySqlContext = mySqlContext;
         }
 
-        public User Select(string name)
+        public User SelectFromUsername(string name)
         {
             return _mySqlContext.Users.Where(s => s.Name == name).ToList().First();
         }
