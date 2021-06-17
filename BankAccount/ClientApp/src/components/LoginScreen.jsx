@@ -42,7 +42,7 @@ export default function LoginScreen( { handleClickButton, handleChangeUser, user
                   onChange={(e) => handleChangeUserLogin(e.target.value)}
                 >
                   {users.map((option) => (
-                    <MenuItem key={option.name} value={option.name}>
+                    <MenuItem key={option.name} value={option}>
                       {option.name}
                     </MenuItem>
                   ))}

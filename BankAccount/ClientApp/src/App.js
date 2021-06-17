@@ -7,6 +7,7 @@ import axios from "axios";
 
 import { useStyles } from "./styles.js";
 import AccountScreen from "./components/AccountScreen.jsx";
+import constants from "./utils/constants.js";
 
 export default function Account(props) {
   const classes = useStyles(props);
@@ -18,15 +19,16 @@ export default function Account(props) {
 
   useEffect(() => {
     axios
-      .get("https://localhost:44323/api/user/")
+      .get(constants.URLS.GET_USERS)
       .then((res) => {
         setUsers(res.data);
+        console.log(res.data);
       })
       .catch((err) => console.log("error", err));
   }, []);
 
-  const handleChangeUser = (product) => {
-    setUser(product);
+  const handleChangeUser = (user) => {
+    setUser(user);
   };
 
   const handleClickButton = () => {

@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(3),
     width: 200,
   },
+  table: {
+    marginTop: theme.spacing(5),
+  },
 }));
 
 export { useStyles };
