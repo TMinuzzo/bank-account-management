@@ -1,9 +1,10 @@
 # Bank Account Management
-A simple bank account application.
+A simple bank account application. Through the webpage, the user can select it's username, as a simplified way of "authentication", and issue three operations: Deposit, Withdraw and Payment. The history and current user balance can also be seen on the webpage, and their values are automatically updated.
+
 ## About
 This project presents a client-server architecture, which the server was implemented following the concepts of Domain Driven Design and loosely coupled layers. 
-The current server implementation uses .NET 3.1, and ASP.NET as the Application Layer. A MySQL database was used for the persistence of the data, and [Entity Framework] (https://github.com/dotnet/efcore) as the ORM. 
-For the client side, was developed a React webpage with the framework [Material UI] (https://material-ui.com/) to help with the presentation layer. 
+The current server implementation uses .NET 3.1, and ASP.NET as the Application Layer. A MySQL database was used for the persistence of the data, and [Entity Framework](https://github.com/dotnet/efcore) as the ORM. 
+For the client side, was developed a React webpage with the framework [Material UI](https://material-ui.com/) to help with the presentation layer. 
 
 ## Getting Started
 ### Prerequisites
@@ -47,7 +48,7 @@ This project contains two main Entities that are persisted into the database as 
 There are four main layers on the project, following the DDD approach:
 1. Application Layer: entry point for the requests, redirecting them to the internal layers.
 2. Domain Layer: The core of the business logic,  providing classes and interfaces to be used on the business rules.
-3. Service: Also contains part of the business logic, with the main role of being the communication with the Repositories.
+3. Service: Also contains part of the business logic, with the main role of communicating with the Repositories.
 4. Infrastructure: Used for external communication with the database, mapping the entities to tables and doing CRUDs.
 
 The unit tests cover the Entities and its validations. There are also some tests that could be considered as integration tests, to validate the database communication but also the Infrastructure layer. 
@@ -63,5 +64,15 @@ The server exposes the following endpoints, using the REST pattern:
 - GET `api/transaction/history/{username}`: shows the history of all transactions for the user, sorted by date. 
 
 
+### Other Implementation decisions
+- To validate some business rules, was used the library FluentValidation, and some validation classes were created on Domain layer.
+- In addition to EF as an ORM, for the User entity was used the Fluent API to map and override conventions through method chaining. 
+
 
 ### Further Improvements
+- Use EF Fluent API to also map the Transaction entities to the database, with this would be possible to define the field requirements and create an extra validation. 
+- Restructure the client code to create some reusable React components, avoiding code duplication. 
+- Run the client on the same enpoint as the server, to facilitate the communication. 
+- More tests, to a full cover of the written code. 
+
+Other improvement points are indicated on the code as TODO items.
