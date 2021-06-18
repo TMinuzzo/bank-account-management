@@ -12,6 +12,8 @@ namespace BankAccount.Domain.Interfaces
             where TOutputModel : class;
 
         IEnumerable<TOutputModel> Get<TOutputModel>() where TOutputModel : class;
+        
+        TOutputModel GetById<TOutputModel>(int id) where TOutputModel : class;
 
         TOutputModel Update<TInputModel, TOutputModel>(TInputModel inputModel)
             where TInputModel : class

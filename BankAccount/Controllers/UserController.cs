@@ -44,6 +44,20 @@ namespace BankAccount.API.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var result = _baseUserService.GetById<User>(id);
+                return Ok(result);
+            }
+            catch (HttpRequestException e)
+            {
+                return BadRequest(e);
+            }
+        }
+
 
 
 

@@ -14,22 +14,13 @@ namespace BankAccount.Infrastructure.Context
         {
 
         }
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
-        public DbSet<Deposit> Deposits { get; set; }
+        public virtual DbSet<Deposit> Deposits { get; set; }
 
-        public DbSet<Withdraw> Withdrawals { get; set; }
+        public virtual DbSet<Withdraw> Withdrawals { get; set; }
 
-        public DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
 
-        /*
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<User>(new UserMap().Configure);
-            //modelBuilder.Entity<Deposit>(new DepositMap().Configure);
-        }
-        */
     }
 }

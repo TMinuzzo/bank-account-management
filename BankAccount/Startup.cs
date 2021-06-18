@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BankAccount.API.Models;
+using BankAccount.Domain.DTOs;
 using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
 using BankAccount.Infrastructure.Context;
@@ -31,7 +32,9 @@ namespace BankAccount
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddDbContext<MySqlContext>(options =>
             {
@@ -69,6 +72,7 @@ namespace BankAccount
             services.AddSingleton(new MapperConfiguration(config =>
             {
                 config.CreateMap<MakeDepositModel, Deposit>();
+                config.CreateMap<TransactionBase, TransactionDto>();
             }).CreateMapper());
 
             

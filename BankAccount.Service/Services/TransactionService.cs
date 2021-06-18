@@ -7,13 +7,13 @@ using BankAccount.Infrastructure.Repository;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 
 namespace BankAccount.Service.Services
 {
     public class TransactionService
     {
-        //private readonly IBaseRepository<Deposit> _depositBaseRepository;
-
         private readonly UserRepository _userRepository;
 
         private readonly TransactionRepository _transactionRepository;
@@ -21,6 +21,8 @@ namespace BankAccount.Service.Services
         private readonly IMapper _mapper;
 
         private readonly UserValidator _userValidator;
+
+        private readonly TransactionValidator _transactionValidator;
 
         public TransactionService(UserRepository userRepository, TransactionRepository transactionRepository, IMapper mapper)
         
@@ -30,6 +32,7 @@ namespace BankAccount.Service.Services
             _mapper = mapper;
 
             _userValidator = Activator.CreateInstance<UserValidator>();
+            _transactionValidator = Activator.CreateInstance<TransactionValidator>();
         }
 
         public Deposit MakeDeposit(int destination, decimal amount)
@@ -39,6 +42,9 @@ namespace BankAccount.Service.Services
             _userValidator.ValidateAndThrow(user);
 
             var deposit = new Deposit(amount, user, DateTime.Now);
+
+            _transactionValidator.ValidateAndThrow(deposit);
+
             _userRepository.Update(user);
 
             return deposit;        
@@ -50,36 +56,43 @@ namespace BankAccount.Service.Services
             User user = Validate(_userRepository.Select(source));
             user.ChangeBalance(TransactionType.WITHDRAW, amount);
 
-            var validator = Activator.CreateInstance<UserValidator>();
+            _userValidator.ValidateAndThrow(user);
 
-            validator.ValidateAndThrow(user);
+            var withdraw = new Withdraw(amount, user, DateTime.Now);
 
+            _transactionValidator.ValidateAndThrow(withdraw);
 
             _userRepository.Update(user);
-            return new Withdraw(amount, user, DateTime.Now);
+
+            return withdraw;
 
         }
 
         public Payment MakePayment(int source, string destination, decimal amount, string description)
         {
             User user = Validate(_userRepository.Select(source));
+            user.ChangeBalance(TransactionType.WITHDRAW, amount);
 
             _userValidator.ValidateAndThrow(user);
 
-            user.Balance = user.Balance - amount;
-            _userRepository.Update(user);
-            return new Payment(amount, user, destination, description, DateTime.Now);
+            var payment = new Payment(amount, user, destination, description, DateTime.Now);
+            _transactionValidator.ValidateAndThrow(payment);
 
+            _userRepository.Update(user);
+
+            return payment;
 
         }
 
         public List<TransactionDto> GetHistory(string username)
         {
-            var user = _userRepository.SelectFromUsername(username);
+            var user = Validate(_userRepository.SelectFromUsername(username));
 
-            return _transactionRepository.GetTransactions(user);
+            var transactionsBase = _transactionRepository.GetTransactions(user);
 
-            // TODO: implement method to order history
+            var sortedTransactions = user.SortUserTransactions(transactionsBase);
+
+            return  sortedTransactions.Select(x => _mapper.Map<TransactionDto>(x)).ToList();
 
         }
 

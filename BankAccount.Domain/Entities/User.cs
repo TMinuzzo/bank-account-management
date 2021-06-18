@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
 
 namespace BankAccount.Domain.Entities
 {
@@ -16,6 +18,12 @@ namespace BankAccount.Domain.Entities
                 Balance = Balance - amount;
             if (type == TransactionType.PAYMENT)
                 Balance = Balance - amount;
+        }
+
+        public List<TransactionBase> SortUserTransactions(List<TransactionBase> transactions)
+        {
+            transactions.Sort((t1, t2) => DateTime.Compare(t1.Timestamp, t2.Timestamp));
+            return transactions;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace BankAccount.API.Controllers
             }
             catch (ValidationException e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -60,7 +60,7 @@ namespace BankAccount.API.Controllers
             }
             catch (ValidationException e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -78,7 +78,7 @@ namespace BankAccount.API.Controllers
             }
             catch (ValidationException e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
 
@@ -93,7 +93,7 @@ namespace BankAccount.API.Controllers
             }
             catch (ValidationException e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
     }

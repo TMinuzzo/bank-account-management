@@ -40,6 +40,14 @@ namespace BankAccount.Service.Services
 
             return outputModels;
         }
+        public TOutputModel GetById<TOutputModel>(int id) where TOutputModel : class
+        {
+            var entity = _baseRepository.Select(id);
+
+            var outputModel = _mapper.Map<TOutputModel>(entity);
+
+            return outputModel;
+        }
 
         public TOutputModel Update<TInputModel, TOutputModel>(TInputModel inputModel)
             where TInputModel : class

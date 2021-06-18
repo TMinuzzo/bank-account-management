@@ -17,10 +17,10 @@ namespace BankAccount.Infrastructure.Repository
             _mySqlContext = mySqlContext;
         }
 
-        public List<TransactionDto> GetTransactions(User user)
+        public List<TransactionBase> GetTransactions(User user)
         {
             var transactionDepositDto = _mySqlContext.Deposits.Where(s => s.Destination == user)
-                                                                    .Select(s => new TransactionDto()
+                                                                    .Select(s => new TransactionBase()
                                                                     {
                                                                         Type = s.Type,
                                                                         Amount = s.Amount,
@@ -28,7 +28,7 @@ namespace BankAccount.Infrastructure.Repository
                                                                     }).ToList();
 
             var transactionPaymentDto = _mySqlContext.Payments.Where(s => s.Source == user)
-                                                        .Select(s => new TransactionDto()
+                                                        .Select(s => new TransactionBase()
                                                         {
                                                             Type = s.Type,
                                                             Amount = s.Amount,
@@ -36,14 +36,14 @@ namespace BankAccount.Infrastructure.Repository
                                                         }).ToList();
 
             var transactionWithdrawDto = _mySqlContext.Withdrawals.Where(s => s.Source == user)
-                                            .Select(s => new TransactionDto()
+                                            .Select(s => new TransactionBase()
                                             {
                                                 Type = s.Type,
                                                 Amount = s.Amount,
                                                 Timestamp = s.Timestamp
                                             }).ToList();
 
-            IEnumerable<TransactionDto> totalTransactions = transactionDepositDto.Concat(transactionPaymentDto).Concat(transactionWithdrawDto);
+            IEnumerable<TransactionBase> totalTransactions = transactionDepositDto.Concat(transactionPaymentDto).Concat(transactionWithdrawDto);
 
             return totalTransactions.ToList();
         }

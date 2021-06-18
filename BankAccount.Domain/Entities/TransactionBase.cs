@@ -10,7 +10,7 @@ namespace BankAccount.Domain.Entities
         DEPOSIT,
         PAYMENT,
     }
-    public abstract class TransactionBase : BaseEntity
+    public class TransactionBase : BaseEntity
     {
         public virtual TransactionType Type { get; set; }
 
