@@ -36,6 +36,11 @@ For the client side, was developed a React webpage with the framework [Material 
   ```
   docker-compose exec mysql -u admin -p 123
   ```
+  When the database is running, on the .NET CLI run the EF migrations:
+  ```
+  dotnet ef --startup-project ..\BankAccount\ database update
+  ```
+  
   To run the server build the project using Visual Studio, and the server will be started at localhost:44323
 
   The server unit tests can be run using the Visual Studio.
@@ -65,8 +70,7 @@ The server exposes the following endpoints, using the REST pattern:
 
 
 ### Other Implementation decisions
-- To validate some business rules, was used the library FluentValidation, and some validation classes were created on Domain layer.
-- In addition to EF as an ORM, for the User entity was used the Fluent API to map and override conventions through method chaining. 
+- To validate some business rules, was used the library FluentValidation, and some validation classes that use this library were created on Domain layer.
 
 
 ### Further Improvements
