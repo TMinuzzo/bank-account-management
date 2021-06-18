@@ -19,13 +19,16 @@ namespace BankAccount.Tests.Infraestructure
         public void CreateUsersSaveWithContext_ReturnsValidCount()
         {
             var options = new DbContextOptionsBuilder<MySqlContext>()
+
             .UseInMemoryDatabase(databaseName: "bank_account")
             .Options;
 
             using (var context = new MySqlContext(options))
             {
-                context.Users.Add(new Domain.Entities.User { Id = 1, Name = "Bob" });
-                context.Users.Add(new Domain.Entities.User { Id = 2, Name = "Alice" });
+                context.Database.EnsureDeleted();
+
+                context.Users.Add(new Domain.Entities.User {  Name = "Bob" });
+                context.Users.Add(new Domain.Entities.User {  Name = "Alice" });
                 context.SaveChanges();
             }
 

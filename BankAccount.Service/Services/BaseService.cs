@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BankAccount.Service.Services
 {
@@ -18,11 +18,17 @@ namespace BankAccount.Service.Services
             _baseRepository = baseRepository;
             _mapper = mapper;
         }
-        public TOutputModel Add<TInputModel, TOutputModel>(TInputModel inputModel) 
+        // Receives a generic Input, Output and Validator type, operate the mappings, validations and Insert on db.
+        public TOutputModel Add<TInputModel, TOutputModel, TValidator>(TInputModel inputModel)
             where TOutputModel : class
             where TInputModel : class
+            where TValidator : AbstractValidator<TEntity>
         {
             TEntity entity = _mapper.Map<TEntity>(inputModel);
+
+            TValidator validator = Activator.CreateInstance<TValidator>();
+
+            validator.ValidateAndThrow(entity);
 
             _baseRepository.Insert(entity);
 

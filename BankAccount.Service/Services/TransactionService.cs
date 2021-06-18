@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BankAccount.Domain.DTOs;
 using BankAccount.Domain.Entities;
-using BankAccount.Domain.Interfaces;
 using BankAccount.Domain.Validators;
 using BankAccount.Infrastructure.Repository;
 using FluentValidation;
@@ -18,14 +17,13 @@ namespace BankAccount.Service.Services
 
         private readonly TransactionRepository _transactionRepository;
 
-        private readonly IMapper _mapper;
-
         private readonly UserValidator _userValidator;
 
         private readonly TransactionValidator _transactionValidator;
 
+        private readonly IMapper _mapper;
+
         public TransactionService(UserRepository userRepository, TransactionRepository transactionRepository, IMapper mapper)
-        
         {
             _userRepository = userRepository;
             _transactionRepository = transactionRepository;
@@ -37,14 +35,16 @@ namespace BankAccount.Service.Services
 
         public Deposit MakeDeposit(int destination, decimal amount)
         {
-            User user = Validate(_userRepository.Select(destination));
+            // Validate new user balance
+            var user = Validate(_userRepository.Select(destination));
             user.ChangeBalance(TransactionType.DEPOSIT, amount);
             _userValidator.ValidateAndThrow(user);
 
+            // Validate new deposit
             var deposit = new Deposit(amount, user, DateTime.Now);
-
             _transactionValidator.ValidateAndThrow(deposit);
 
+            // Update user balance
             _userRepository.Update(user);
 
             return deposit;        
@@ -53,15 +53,16 @@ namespace BankAccount.Service.Services
 
         public Withdraw MakeWithdraw(int source, decimal amount)
         {
-            User user = Validate(_userRepository.Select(source));
+            // Validate new user balance
+            var user = Validate(_userRepository.Select(source));
             user.ChangeBalance(TransactionType.WITHDRAW, amount);
-
             _userValidator.ValidateAndThrow(user);
 
+            // Validate new withdraw
             var withdraw = new Withdraw(amount, user, DateTime.Now);
-
             _transactionValidator.ValidateAndThrow(withdraw);
 
+            // Update user balance
             _userRepository.Update(user);
 
             return withdraw;
@@ -70,14 +71,16 @@ namespace BankAccount.Service.Services
 
         public Payment MakePayment(int source, string destination, decimal amount, string description)
         {
-            User user = Validate(_userRepository.Select(source));
-            user.ChangeBalance(TransactionType.WITHDRAW, amount);
-
+            // Validate new user balance
+            var user = Validate(_userRepository.Select(source));
+            user.ChangeBalance(TransactionType.PAYMENT, amount);
             _userValidator.ValidateAndThrow(user);
 
+            // Validate new payment
             var payment = new Payment(amount, user, destination, description, DateTime.Now);
             _transactionValidator.ValidateAndThrow(payment);
 
+            // Update user balance
             _userRepository.Update(user);
 
             return payment;
@@ -90,19 +93,18 @@ namespace BankAccount.Service.Services
 
             var transactionsBase = _transactionRepository.GetTransactions(user);
 
-            var sortedTransactions = user.SortUserTransactions(transactionsBase);
+            var sorted = user.SortUserTransactions(transactionsBase);
 
-            return  sortedTransactions.Select(x => _mapper.Map<TransactionDto>(x)).ToList();
+            return sorted.Select(x => _mapper.Map<TransactionDto>(x)).ToList();
 
         }
 
-        private TInputModel Validate<TInputModel>(TInputModel obj) where TInputModel : class
+        private TInputModel Validate<TInputModel>(TInputModel entity) where TInputModel : class
         {
-            // TODO: Throw a better exception (maybe custom) and handle it
-            if (obj == null)
+            if (entity == null)
                 throw new Exception("Registro não existente.");
 
-            return obj;
+            return entity;
         }
     }
 }

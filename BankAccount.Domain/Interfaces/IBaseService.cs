@@ -1,15 +1,15 @@
 ﻿using BankAccount.Domain.Entities;
-using System;
+using FluentValidation;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BankAccount.Domain.Interfaces
 {
     public interface IBaseService<TEntity> where TEntity : BaseEntity 
     {
-        TOutputModel Add<TInputModel, TOutputModel>(TInputModel inputModel)
+        TOutputModel Add<TInputModel, TOutputModel, TValidator>(TInputModel inputModel)
             where TInputModel : class
-            where TOutputModel : class;
+            where TOutputModel : class
+            where TValidator : AbstractValidator<TEntity>;
 
         IEnumerable<TOutputModel> Get<TOutputModel>() where TOutputModel : class;
         

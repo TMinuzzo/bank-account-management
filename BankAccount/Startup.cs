@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using BankAccount.API.Models;
 using BankAccount.Domain.DTOs;
@@ -12,7 +9,6 @@ using BankAccount.Infrastructure.Repository;
 using BankAccount.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +24,6 @@ namespace BankAccount
         {
             Configuration = configuration;
         }
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -69,13 +64,18 @@ namespace BankAccount
 
             services.AddScoped<TransactionService, TransactionService>();
             
+            // Mappers
             services.AddSingleton(new MapperConfiguration(config =>
             {
+                config.CreateMap<CreateUserModel, User>();
                 config.CreateMap<MakeDepositModel, Deposit>();
+                config.CreateMap<MakePaymentModel, Payment>();
+                config.CreateMap<MakeWithdrawModel, Withdraw>();
                 config.CreateMap<TransactionBase, TransactionDto>();
             }).CreateMapper());
 
-            
+
+            // CORS policy
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -84,7 +84,6 @@ namespace BankAccount
             })); 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("MyPolicy");

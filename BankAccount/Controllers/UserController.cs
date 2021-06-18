@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
+using BankAccount.API.Models;
 using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
+using BankAccount.Domain.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankAccount.API.Controllers
@@ -17,11 +19,11 @@ namespace BankAccount.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] User user)
+        public IActionResult Create([FromBody] CreateUserModel user)
         {
             try
             {
-                var result = _baseUserService.Add<User, User>(user);
+                var result = _baseUserService.Add<CreateUserModel, User, UserValidator>(user);
                 return Ok(result);
             }
             catch(HttpRequestException e)

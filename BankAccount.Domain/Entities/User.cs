@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace BankAccount.Domain.Entities
@@ -20,6 +19,7 @@ namespace BankAccount.Domain.Entities
                 Balance = Balance - amount;
         }
 
+        // Sort all transactions associated to the user, based on DateTime
         public List<TransactionBase> SortUserTransactions(List<TransactionBase> transactions)
         {
             transactions.Sort((t1, t2) => DateTime.Compare(t1.Timestamp, t2.Timestamp));

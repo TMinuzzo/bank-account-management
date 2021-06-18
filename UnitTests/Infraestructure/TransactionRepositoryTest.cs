@@ -25,10 +25,10 @@ namespace BankAccount.Tests.Infraestructure
 
             using (var context = new MySqlContext(options))
             {
-                User user = new User { Id = 1, Name = "Alice" };
-                context.Deposits.Add(new Deposit { Id = 1, Amount = 50.25m, Destination = user, Timestamp = DateTime.Now, Type = TransactionType.DEPOSIT });
-                context.Withdrawals.Add(new Withdraw { Id = 1, Amount = 50.25m, Source = user, Timestamp = DateTime.Now, Type = TransactionType.WITHDRAW });
-                context.Payments.Add(new Payment { Id = 1, Amount = 50.25m, Source = user, Destination = "Feira", Timestamp = DateTime.Now,  Description = "Pagamento da Feira", Type = TransactionType.PAYMENT });
+                User user = new User { Name = "Alice" };
+                context.Deposits.Add(new Deposit { Amount = 50.25m, Destination = user, Timestamp = DateTime.Now, Type = TransactionType.DEPOSIT });
+                context.Withdrawals.Add(new Withdraw { Amount = 50.25m, Source = user, Timestamp = DateTime.Now, Type = TransactionType.WITHDRAW });
+                context.Payments.Add(new Payment { Amount = 50.25m, Source = user, Destination = "Feira", Timestamp = DateTime.Now,  Description = "Pagamento da Feira", Type = TransactionType.PAYMENT });
 
                 context.SaveChanges();
             }

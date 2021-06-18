@@ -1,9 +1,5 @@
 ﻿using BankAccount.Domain.Entities;
-using BankAccount.Infrastructure.Mapping;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BankAccount.Infrastructure.Context
 {
@@ -14,6 +10,8 @@ namespace BankAccount.Infrastructure.Context
         {
 
         }
+        
+        // Using automatic mapping from the Entities to the database provided by EF. 
         public virtual DbSet<User> Users { get; set; }
 
         public virtual DbSet<Deposit> Deposits { get; set; }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BankAccount.API.Models
+﻿namespace BankAccount.API.Models
 {
+    // Request Model used to receiva dataS
     public class MakeWithdrawModel
     {
         public int Source { get; set; }

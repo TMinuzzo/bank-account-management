@@ -1,6 +1,7 @@
 ﻿using BankAccount.API.Models;
 using BankAccount.Domain.Entities;
 using BankAccount.Domain.Interfaces;
+using BankAccount.Domain.Validators;
 using BankAccount.Service.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +36,9 @@ namespace BankAccount.API.Controllers
             try
             {
                 // TODO: Instead of passing attributes from RequestModel, pass a generic type and use Mapper to map between generic and Entity
+                // Avoid exposing entities on Application layer
                 var deposit = _transactionService.MakeDeposit(makeDepositModel.Destination, makeDepositModel.Amount);
-                var result = _baseDepositService.Add<Deposit, Deposit>(deposit);
+                var result = _baseDepositService.Add<Deposit, Deposit, DepositValidator>(deposit);
 
                 return Ok(result);
             }
@@ -53,8 +55,9 @@ namespace BankAccount.API.Controllers
             try
             {
                 // TODO: Instead of passing attributes from RequestModel, pass a generic type and use Mapper to map between generic and Entity
+                // Avoid exposing entities on Application layer
                 var withdraw = _transactionService.MakeWithdraw(makeWithdrawModel.Source, makeWithdrawModel.Amount);
-                var result = _baseWithdrawService.Add<Withdraw, Withdraw>(withdraw);
+                var result = _baseWithdrawService.Add<Withdraw, Withdraw, WithdrawValidator>(withdraw);
 
                 return Ok(result);
             }
@@ -66,13 +69,14 @@ namespace BankAccount.API.Controllers
 
         [HttpPost]
         [Route("payment")]
-        public IActionResult MakePayment([FromBody] MakePayment makePayment)
+        public IActionResult MakePayment([FromBody] MakePaymentModel makePayment)
         {
             try
             {
                 // TODO: Instead of passing attributes from RequestModel, pass a generic type and use Mapper to map between generic and Entity
+                // Avoid exposing entities on Application layer
                 var payment = _transactionService.MakePayment(makePayment.Source, makePayment.Destination, makePayment.Amount, makePayment.Description);
-                var result = _basePaymentService.Add<Payment, Payment>(payment);
+                var result = _basePaymentService.Add<Payment, Payment, PaymentValidator>(payment);
 
                 return Ok(result);
             }

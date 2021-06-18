@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.Domain", "BankA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.Infrastructure", "BankAccount.Infrastructure\BankAccount.Infrastructure.csproj", "{51DF6F0A-57B1-4F19-BADB-3660560C6BDC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{10832A59-AD23-4666-AD43-1E5AE07E47DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.Tests", "UnitTests\BankAccount.Tests.csproj", "{10832A59-AD23-4666-AD43-1E5AE07E47DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccount.Service", "BankAccount.Service\BankAccount.Service.csproj", "{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAccount.Service", "BankAccount.Service\BankAccount.Service.csproj", "{64B89F48-BCE5-4C25-9F91-8F8B38CC4969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

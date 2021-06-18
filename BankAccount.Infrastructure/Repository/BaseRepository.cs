@@ -8,6 +8,7 @@ using System.Text;
 
 namespace BankAccount.Infrastructure.Repository
 {
+    // Base Repository with CRUD methods
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         protected readonly MySqlContext _mySqlContext;

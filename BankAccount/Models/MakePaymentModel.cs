@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BankAccount.API.Models
+﻿namespace BankAccount.API.Models
 {
-    public class MakePayment
+    // Request Model used to receiva dataS
+    public class MakePaymentModel
     {
         public int Source { get; set; }
         
