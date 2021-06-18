@@ -45,7 +45,7 @@ export default function Account(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      {loginStatus == false ? (
+      {loginStatus === false ? (
         <LoginScreen
           handleClickButton={handleClickButton}
           handleChangeUser={handleChangeUser}

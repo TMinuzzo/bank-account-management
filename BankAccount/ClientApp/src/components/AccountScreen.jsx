@@ -28,35 +28,54 @@ export default function AccountScreen({user}) {
   const classes = useStyles();
 
   const [operation, setOperation] = useState("Saque");
-  const [price, setPrice] = useState(50.00);
+  const [price, setPrice] = useState(50.25);
   const [history, setHistory] = useState([]);
   const [balance, setBalance] = useState(0);
+  const [description, setDescription] = useState("");
+  const [destination, setDestination] = useState("");
 
   const handleChangeOperation = (operation) =>  {
-    setOperation(operation)
+    setOperation(operation);
   }
 
-  const handleChangePrice = (price) => {
-    console.log(price)
-    setPrice(parseInt(price))
+  const handleChangePrice = (event) => {
+    setPrice(event.target.value);
+  }
+
+  const handleChangeDescription = (description) => {
+    setDescription(description);
+  }
+
+  const handleChangeDestination = (destination) => {
+    setDestination(destination);
   }
 
   useEffect(() => {
-    setBalance(user.balance)
+    setBalance(user.balance);
     updateHistory();
   }, []);
 
   const handleClickButtonOperation = () => {
     let body = null;
-    operation === "Depósito" ? body = {destination: user.id, amount: price} : body = {source: user.id, amount: price}
+    operation === "Depósito" ? body = {destination: user.id, amount: parseFloat(price)}  
+    : operation === "Saque" ? body = {source: user.id, amount: parseFloat(price)} 
+                          :  body = {source: user.id, amount: parseFloat(price), description: description}
 
-    console.log(body)
     axios
     .post(constants.MAP_OPTION_TO_URL[operation], body)
-    .then((res) => {   
-      updateHistory();     
+    .then(() => {   
+      updateHistory();
+    }).then(() => getUser())
+    .catch((err) => alert("error" + err.response.data));
+  }
+  
+  const getUser = () => {
+    axios
+    .get(constants.URLS.GET_USERS + user.id)
+    .then((res) => { 
+      setBalance(res.data.balance)
     })
-    .catch((err) => console.log("error", err));
+    .catch((err) => alert("error" + err.response.data));
   }
 
   const updateHistory = () => {
@@ -79,7 +98,7 @@ export default function AccountScreen({user}) {
             </Typography>
             <Grid item xs={12}>
             <Typography component="h6" variant="h6" align="left">
-              Seu saldo é de: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(user.balance)}
+              Seu saldo é de: {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(balance)}
             </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -108,13 +127,31 @@ export default function AccountScreen({user}) {
                 label="Valor"
                 id="standard-adornment-amount"
                 value={price}
-                onChange={(e) => handleChangePrice(e.target.value)}
+                onChange={handleChangePrice}
                 InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
                 ),
                 }}
+              />
+              { operation === "Pagamento" ?
+                <div>
+                  <TextField
+                    className={classes.textField}
+                    label="Descrição"
+                    id="description-field"
+                    value={description}
+                    onChange={(e) => handleChangeDescription(e.target.value)}
+                  />
+                  <TextField
+                  className={classes.textField}
+                  label="Destino"
+                  id="destination-field"
+                  value={destination}
+                  onChange={(e) => handleChangeDestination(e.target.value)}
                 />
+              </div>
+              : null}
             </Grid>
             <Button
               variant="contained"
@@ -132,6 +169,7 @@ export default function AccountScreen({user}) {
                 <TableCell align="center">Operação</TableCell>
                 <TableCell align="center">Valor (R$)</TableCell>
                 <TableCell align="center">Data</TableCell>
+                <TableCell align="center">Descrição</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -140,6 +178,7 @@ export default function AccountScreen({user}) {
                   <TableCell align="center">{constants.OPERATION_ENUM[row.type]}</TableCell>
                   <TableCell align="center" scope="row">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(row.amount)}</TableCell>
                   <TableCell align="center">{new Date(row.timestamp).toLocaleDateString()}</TableCell>
+                  <TableCell align="center">{row.description ? row.description : ""}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
