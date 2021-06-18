@@ -59,10 +59,11 @@ export default function AccountScreen({user}) {
     let body = null;
     operation === "Depósito" ? body = {destination: user.id, amount: parseFloat(price)}  
     : operation === "Saque" ? body = {source: user.id, amount: parseFloat(price)} 
-                          :  body = {source: user.id, amount: parseFloat(price), description: description}
+                          :  body = {source: user.id, amount: parseFloat(price), description: description, destination: destination}
 
+    let url = operation === "Depósito" ? constants.URLS.MAKE_DEPOSIT : operation === "Saque" ? constants.URLS.MAKE_WITHDRAW : constants.URLS.MAKE_PAYMENT;
     axios
-    .post(constants.MAP_OPTION_TO_URL[operation], body)
+    .post(url, body)
     .then(() => {   
       updateHistory();
     }).then(() => getUser())
@@ -83,9 +84,8 @@ export default function AccountScreen({user}) {
     .get(constants.URLS.GET_HISTORY + user.name)
     .then((res) => {   
       setHistory(res.data)  
-      console.log(res.data);
     })
-    .catch((err) => console.log("error", err));
+    .catch((err) => alert("error" + err));
   }
 
   return (
@@ -169,16 +169,14 @@ export default function AccountScreen({user}) {
                 <TableCell align="center">Operação</TableCell>
                 <TableCell align="center">Valor (R$)</TableCell>
                 <TableCell align="center">Data</TableCell>
-                <TableCell align="center">Descrição</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {history.map((row) => (
-                <TableRow key={constants.OPERATION_ENUM[row.type]}>
+                <TableRow>
                   <TableCell align="center">{constants.OPERATION_ENUM[row.type]}</TableCell>
                   <TableCell align="center" scope="row">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(row.amount)}</TableCell>
                   <TableCell align="center">{new Date(row.timestamp).toLocaleDateString()}</TableCell>
-                  <TableCell align="center">{row.description ? row.description : ""}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

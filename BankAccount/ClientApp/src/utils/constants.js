@@ -14,10 +14,4 @@ const URLS = {
   GET_HISTORY: BASE_URL + "transaction/history/",
 };
 
-const MAP_OPTION_TO_URL = {
-  Depósito: URLS.MAKE_DEPOSIT,
-  Saque: URLS.MAKE_WITHDRAW,
-  Pagamento: URLS.MAKE_PAYMENT,
-};
-
-export default { URLS, MAP_OPTION_TO_URL, OPERATION_ENUM };
+export default { URLS, OPERATION_ENUM };

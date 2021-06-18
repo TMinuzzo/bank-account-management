@@ -22,9 +22,8 @@ export default function Account(props) {
       .get(constants.URLS.GET_USERS)
       .then((res) => {
         setUsers(res.data);
-        console.log(res.data);
       })
-      .catch((err) => console.log("error", err));
+      .catch((err) => alert("error" + err));
   }, []);
 
   const handleChangeUser = (user) => {
