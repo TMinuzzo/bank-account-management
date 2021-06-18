@@ -36,7 +36,7 @@ For the client side, was developed a React webpage with the framework [Material 
   ```
   docker-compose exec mysql -u admin -p 123
   ```
-  When the database is running, on the .NET CLI run the EF migrations:
+  When the database is running, go to the `BankAccount.Infrastructure` directory, and on the .NET CLI run the EF migrations:
   ```
   dotnet ef --startup-project ..\BankAccount\ database update
   ```
